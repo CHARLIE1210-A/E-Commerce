@@ -3,9 +3,9 @@ const state = () => ({
     selectedCategory: '',
     search: '',
     minPrice: 0,
-    maxPrice: 1000,
-    allCategories: ['All', 'Electronics', 'Footwear', 'Accessories', 'Audio'],
-    priceRange: [0, 1000]
+    maxPrice: 1000000,
+    allCategories: ['All', 'Electronics', 'Footwear', 'Accessories', 'Audio','Accessories'],
+    priceRange: [0, 1000000]
   })
   
   const getters = {

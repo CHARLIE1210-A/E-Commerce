@@ -1,46 +1,62 @@
-// store/models/product.js
-export default {
-    namespaced: true,
-    state: () => ({
-      mostBought: []
-    }),
-    mutations: {
-      SET_MOST_BOUGHT(state, products) {
-        state.mostBought = products
+// store/modules/product.js
+
+import axios from 'axios'
+
+const state = () => ({
+  products: [],
+  loading: false,
+  error: null,
+})
+
+const getters = {
+  allProducts: (state) => state.products || [],
+  isLoading: (state) => state.loading,
+  hasError: (state) => !!state.error,
+}
+
+const mutations = {
+  SET_PRODUCTS(state, products) {
+    state.products = products
+  },
+  SET_LOADING(state, value) {
+    state.loading = value
+  },
+  SET_ERROR(state, error) {
+    state.error = error
+  },
+}
+
+const actions = {
+  async fetchProducts({ commit }) {
+    commit('SET_LOADING', true)
+    commit('SET_ERROR', null)
+    try {
+      // console.log('About to call API')
+      const res = await axios.get('http://localhost:8000/api/products/')
+      console.log('Fetched data:', res.data)
+      commit('SET_PRODUCTS', res.data)
+    } catch (err) {
+      if (err.response) {
+        // The request was made, but the server responded with a status code other than 2xx
+        commit('SET_ERROR', `API error: ${err.response.data.message || 'Failed to fetch products'}`)
+      } else if (err.request) {
+        // The request was made, but no response was received
+        commit('SET_ERROR', 'Network error: No response from the server.')
+      } else {
+        // Something else happened in setting up the request
+        commit('SET_ERROR', `Error: ${err.message}`)
       }
-    },
-    actions: {
-      fetchMostBought({ commit }) {
-        // Simulated API call
-        const orderedProducts = [
-          {
-            id: 4,
-            title: 'Noise Cancelling Headphones',
-            price: 299.99,
-            image: 'https://via.placeholder.com/400x300',
-            orderCount: 127
-          },
-          {
-            id: 1,
-            title: 'Smart Watch',
-            price: 199.99,
-            image: 'https://via.placeholder.com/400x300',
-            orderCount: 105
-          },
-          {
-            id: 2,
-            title: 'Running Shoes',
-            price: 89.99,
-            image: 'https://via.placeholder.com/400x300',
-            orderCount: 87
-          }
-        ]
-  
-        commit('SET_MOST_BOUGHT', orderedProducts.sort((a, b) => b.orderCount - a.orderCount).slice(0, 4))
-      }
-    },
-    getters: {
-      mostBought: state => state.mostBought
+    } finally {
+      commit('SET_LOADING', false)
     }
-  }
-  
+  },
+}
+
+
+export default {
+  namespaced: true,
+  state,
+  getters,
+  mutations,
+  actions,
+}

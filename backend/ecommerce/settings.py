@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-29ur6kxe01)#nlk-@ut&ca1ss3go@6h#21r_-vorv(vs9-t7k*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['e-commerce-f5fw.onrender.com']
+ALLOWED_HOSTS = ['e-commerce-f5fw.onrender.com','127.0.0.1','localhost']
 
 
 # Application definition
@@ -74,6 +74,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ecommerce.wsgi.application"
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+]
 
 
 # Database
@@ -127,3 +130,14 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+TWILIO_ACCOUNT_SID = 'AC4c441527c77760624f526ddc053be6cf'
+TWILIO_AUTH_TOKEN = 'db4dd463ac1d6f18dc48a1dda4c6c218'
+TWILIO_PHONE_NUMBER = '+16202872482'

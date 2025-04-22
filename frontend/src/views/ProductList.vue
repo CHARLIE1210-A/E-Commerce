@@ -92,6 +92,14 @@ const showFilters = ref(false)
 const toggleFilters = () => {
   showFilters.value = !showFilters.value
 }
+
+const products = computed(() => store.getters['products/allProducts'] || [])
+onMounted(() => {
+  // console.log('Component is mounted');
+  store.dispatch('products/fetchProducts')
+  // console.log('Component is ready');
+})
+
 const filtered = computed(() => {
   const searchQuery = store.getters['filters/searchQuery'] || ''
   const selectedCategory = store.getters['filters/selectedCategory'] || ''
@@ -128,40 +136,46 @@ const addToCart = (product) => {
   alert(`Added "${product.title}" to cart!`)
 }
 
-const products = ref([
-  {
-    id: 1,
-    title: 'Smart Watch',
-    price: 199.99,
-    image: 'https://via.placeholder.com/400x300',
-    category: 'Electronics',
-    onSale: true,
-  },
-  {
-    id: 2,
-    title: 'Running Shoes',
-    price: 89.99,
-    image: 'https://via.placeholder.com/400x300',
-    category: 'Footwear',
-    onSale: false,
-  },
-  {
-    id: 3,
-    title: 'Leather Wallet',
-    price: 45.0,
-    image: 'https://via.placeholder.com/400x300',
-    category: 'Accessories',
-    onSale: true,
-  },
-  {
-    id: 4,
-    title: 'Noise Cancelling Headphones',
-    price: 299.99,
-    image: 'https://via.placeholder.com/400x300',
-    category: 'Audio',
-    onSale: false,
-  },
-])
+
+
+// console.log(products)
+
+
+//  const products = ref([
+//    {
+//      id: 1,
+//      title: 'Smart Watch',
+//      price: 199.99,
+//      image: 'https://via.placeholder.com/400x300',
+//      category: 'Electronics',
+//      onSale: true,
+//    },
+//    {
+//      id: 2,
+//      title: 'Running Shoes',
+//      price: 89.99,
+//      image: 'https://via.placeholder.com/400x300',
+//      category: 'Footwear',
+//      onSale: false,
+//    },
+//    {
+//      id: 3,
+//      title: 'Leather Wallet',
+//      price: 45.0,
+//      image: 'https://via.placeholder.com/400x300',
+//      category: 'Accessories',
+//      onSale: true,
+//    },
+//    {
+//      id: 4,
+//      title: 'Noise Cancelling Headphones',
+//      price: 299.99,
+//      image: 'https://via.placeholder.com/400x300',
+//      category: 'Audio',
+//      onSale: false,
+//    },
+//  ])
+
 
 // Data for Most Bought Products
 const mostBoughtProducts = ref([
@@ -193,11 +207,11 @@ const mostBoughtProducts = ref([
 
 
 
-onMounted(() => {
-  store.dispatch('product/fetchMostBought')
-  store.dispatch('loadProducts')
-  setInterval(() => store.dispatch('product/fetchMostBought'), 10000)
-})
+// onMounted(() => {
+//   store.dispatch('product/fetchMostBought')
+//   store.dispatch('loadProducts')
+//   setInterval(() => store.dispatch('product/fetchMostBought'), 10000)
+// })
 </script>
 
 <style scoped>

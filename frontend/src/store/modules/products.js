@@ -32,8 +32,8 @@ const actions = {
     commit('SET_ERROR', null)
     try {
       // console.log('About to call API')
-      const res = await axios.get('http://localhost:8000/api/products/')
-      console.log('Fetched data:', res.data)
+      const res = await axios.get('https://e-commerce-f5fw.onrender.com/api/products/')
+      // console.log('Fetched data:', res.data)
       commit('SET_PRODUCTS', res.data)
     } catch (err) {
       if (err.response) {

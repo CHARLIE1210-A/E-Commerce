@@ -1,10 +1,10 @@
 <template>
-  <div id="app" class="flex flex-col min-h-screen bg-gray-100">
+  <div class="app-container">
     <!-- Header -->
     <Header />
 
     <!-- Main Content Area -->
-    <main class="flex-grow container mx-auto px-4 py-6">
+    <main class="main-content">
       <router-view />
     </main>
 
@@ -18,3 +18,24 @@ import Header from './components/HeaderBar.vue'
 import Footer from './components/FooterBar.vue'
 </script>
 
+<style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-content {
+  flex-grow: 1;
+  max-width: 1200px;
+  margin: 0 1rem;
+  /* padding: 2rem; */
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+</style>

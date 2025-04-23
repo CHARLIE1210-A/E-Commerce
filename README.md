@@ -44,7 +44,7 @@ A simple e-commerce web application built using **Django (DRF)** for the backend
 git clone https://github.com/CHARLIE1210-A/E-Commerce.git
 ```
 
-### Backend Setup
+### 🐍 Backend Setup
 ```bash
 cd backend
 python -m venv venv         # set virtual environment
@@ -64,7 +64,7 @@ python manage.py runserver
 http://localhost:8000/
 ```
 
-### Frontend Setup(Vue.js + vuex)
+### 🌐 Frontend Setup(Vue.js + vuex)
 
 ```bash
 cd frontend
@@ -81,7 +81,7 @@ npm run serve
 http://localhost:8080/
 ```
 
-## Project Structure
+## 📁 Project Structure
 ```bash
 e-commerce/
 │

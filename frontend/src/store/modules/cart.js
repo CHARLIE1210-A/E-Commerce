@@ -1,3 +1,5 @@
+import api from '../../services/api'
+
 export default {
     namespaced: true,
   
@@ -39,18 +41,51 @@ export default {
     },
   
     actions: {
-      addToCart({ commit }, product) {
+      async addToCart({ commit }, product) {
         commit('ADD_TO_CART', product)
+
+        try {
+          const userId = 1// or from auth state
+          await api.post('/cart/add/', {
+            user_id: userId,
+            product_id: product.id,
+            quantity: 1,
+          })
+        } catch (error) {
+          console.error('Error syncing cart to backend:', error)
+        }
       },
-      increaseQty({ commit }, productId) {
+
+      async increaseQty({ commit }, productId) {
         commit('INCREASE_QTY', productId)
+
+        try {
+          await api.post(`/cart/${productId}/update/`, { action: 'increase' })
+        } catch (error) {
+          console.error('Failed to increase quantity:', error)
+        }
       },
-      decreaseQty({ commit }, productId) {
+
+      async decreaseQty({ commit }, productId) {
         commit('DECREASE_QTY', productId)
+
+        try {
+          await api.post(`/cart/${productId}/update/`, { action: 'decrease' })
+        } catch (error) {
+          console.error('Failed to decrease quantity:', error)
+        }
       },
-      removeFromCart({ commit }, productId) {
+
+      async removeFromCart({ commit }, productId) {
         commit('REMOVE_FROM_CART', productId)
+
+        try {
+          await api.delete(`/cart/${productId}/delete/`)
+        } catch (error) {
+          console.error('Failed to remove product from cart:', error)
+        }
       },
+
       clearCart({ commit }) {
         commit('CLEAR_CART')
       },

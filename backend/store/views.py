@@ -9,6 +9,7 @@ from .serializers import UserSerializer, ProductSerializer, CartSerializer, Orde
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .utils import send_otp_via_twilio
+from django.db.models import Sum
 class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return  # No-op to bypass CSRF check
@@ -158,6 +159,12 @@ class DeleteCartAPIView(APIView):
         Cart.objects.filter(pk=pk).delete()
         return Response({'message': 'Product removed from cart'})
 
+# To list cart items per user
+class CartListAPIView(APIView):
+    def get(self, request, user_id):
+        items = Cart.objects.filter(user_id=user_id)
+        serializer = CartSerializer(items, many=True)
+        return Response(serializer.data)
 
 # ------------------- ORDER -------------------
 
@@ -188,3 +195,40 @@ class CancelOrderAPIView(APIView):
     def post(self, request, pk):
         Order.objects.filter(id=pk).delete()
         return Response({'message': 'Order cancelled'})
+    
+
+class TopPurchasedProductsAPIView(APIView):
+    def get(self, request):
+        top_products = (
+            Order.objects
+            .values(
+                'product__id',
+                'product__title',
+                'product__image_url',
+                'product__price',
+                'product__description',
+                'product__category',
+                'product__sold',
+                'product__is_sale',
+            )
+            .annotate(total_quantity=Sum('quantity'))
+            .order_by('-total_quantity')[:5]
+        )
+
+        # Optional: Format keys to be more readable
+        formatted = [
+            {
+                'id': item['product__id'],
+                'title': item['product__title'],
+                'image_url': item['product__image_url'],
+                'price': item['product__price'],
+                'category': item['product__category'],
+                'sold': item['product__sold'],  
+                'is_sale': item['product__is_sale'],
+                'description': item['product__description'],
+                'total_quantity': item['total_quantity']
+            }
+            for item in top_products
+        ]
+
+        return Response(formatted)

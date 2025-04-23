@@ -29,8 +29,8 @@ import Footer from './components/FooterBar.vue'
 
 .main-content {
   flex-grow: 1;
-  max-width: 1200px;
-  margin: 0 1rem;
+  max-width: 1600px;
+  margin: 0 1.5rem;
   /* padding: 2rem; */
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);

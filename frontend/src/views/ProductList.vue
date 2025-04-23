@@ -1,22 +1,21 @@
 <template>
   <div class="products-wrapper">
     <!-- Wrapper Row -->
-<div class="top-actions-row">
-  <!-- Filter Button -->
-  <div class="top-bar">
-    <button @click="toggleFilters" class="filter-toggle-btn">
-      <i class="fas fa-sliders-h"></i> Filters
-    </button>
-  </div>
+    <div class="top-actions-row">
+      <!-- Filter Button -->
+      <div class="top-bar">
+        <button @click="toggleFilters" class="filter-toggle-btn">
+          <i class="fas fa-sliders-h"></i> Filters
+        </button>
+      </div>
 
-  <!-- Most Bought Toggle Button -->
-  <div class="toggle-most-bought-wrapper">
-    <button @click="toggleMostBought" class="toggle-most-bought-btn">
-      {{ showMostBought ? 'Hide' : 'Show' }} Most Bought Products
-    </button>
-  </div>
-</div>
-
+      <!-- Most Bought Toggle Button -->
+      <div class="toggle-most-bought-wrapper">
+        <button @click="toggleMostBought" class="toggle-most-bought-btn">
+          {{ showMostBought ? "Hide" : "Show" }} Most Bought Products
+        </button>
+      </div>
+    </div>
 
     <!-- Filter Sidebar as overlay above product list -->
     <transition name="fade">
@@ -25,23 +24,25 @@
       </div>
     </transition>
 
-
     <!-- Most Bought Products Section -->
-    <!-- <MostBought v-if="showMostBought" /> -->
-     <!-- Most Bought Products Section -->
-     <div v-if="showMostBought" class="most-bought-products">
+    <MostBought v-if="showMostBought" />
+    <!-- Most Bought Products Section -->
+    <!-- <div v-if="showMostBought" class="most-bought-products">
       <h3 class="most-bought-title">Most Bought Products</h3>
       <div class="most-bought-grid">
-      <div v-for="item in mostBoughtProducts" :key="item.id" class="most-bought-item">
-        <img :src="item.image" alt="product" class="most-bought-image" />
-        <div class="most-bought-details">
-          <h4 class="most-bought-title">{{ item.title }}</h4>
-          <p class="most-bought-price">${{ item.price }}</p>
+        <div
+          v-for="item in mostBoughtProducts"
+          :key="item.id"
+          class="most-bought-item"
+        >
+          <img :src="item.image" alt="product" class="most-bought-image" />
+          <div class="most-bought-details">
+            <h4 class="most-bought-title">{{ item.title }}</h4>
+            <p class="most-bought-price">${{ item.price }}</p>
+          </div>
         </div>
       </div>
-      </div>
-    </div>
-
+    </div> -->
 
     <h2 class="section-title">Featured Products</h2>
     <div class="product-grid">
@@ -57,9 +58,12 @@
           <div class="product-price-badge">
             <span class="product-price">${{ product.price }}</span>
             <span
-              :class="['price-badge', product.onSale ? 'on-sale' : 'regular-price']"
+              :class="[
+                'price-badge',
+                product.onSale ? 'on-sale' : 'regular-price',
+              ]"
             >
-              {{ product.onSale ? 'On Sale' : 'Regular Price' }}
+              {{ product.onSale ? "On Sale" : "Regular Price" }}
             </span>
           </div>
           <button @click="addToCart(product)" class="add-to-cart-btn">
@@ -72,74 +76,70 @@
 </template>
 
 <script setup>
-import { ref, onMounted,computed} from 'vue'
-import { useStore } from 'vuex'
-import FilterSidebar from '../components/FilterSideBar.vue'
-// import MostBought from '../components/MostBought.vue'
+import { ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
+import FilterSidebar from "../components/FilterSideBar.vue";
+import MostBought from "../components/MostBought.vue";
 
 // const searchTerm = ref('')
-const store = useStore()
+const store = useStore();
 // const filteredProducts = computed(() => {
-  //   if (!searchTerm.value.trim()) return []
-  //   const term = searchTerm.value.toLowerCase()
-  //   return products.value.filter((p) =>
-  //     p.title.toLowerCase().includes(term) ||
-  //     p.category.toLowerCase().includes(term)
-  //   )
-  // })
-  
-const showFilters = ref(false)
-const toggleFilters = () => {
-  showFilters.value = !showFilters.value
-}
+//   if (!searchTerm.value.trim()) return []
+//   const term = searchTerm.value.toLowerCase()
+//   return products.value.filter((p) =>
+//     p.title.toLowerCase().includes(term) ||
+//     p.category.toLowerCase().includes(term)
+//   )
+// })
 
-const products = computed(() => store.getters['products/allProducts'] || [])
+const showFilters = ref(false);
+const toggleFilters = () => {
+  showFilters.value = !showFilters.value;
+};
+
+const products = computed(() => store.getters["products/allProducts"] || []);
 onMounted(() => {
   // console.log('Component is mounted');
-  store.dispatch('products/fetchProducts')
+  store.dispatch("products/fetchProducts");
   // console.log('Component is ready');
-})
+});
 
 const filtered = computed(() => {
-  const searchQuery = store.getters['filters/searchQuery'] || ''
-  const selectedCategory = store.getters['filters/selectedCategory'] || ''
-  const minPrice = store.getters['filters/minPrice']
-  const maxPrice = store.getters['filters/maxPrice']
+  const searchQuery = store.getters["filters/searchQuery"] || "";
+  const selectedCategory = store.getters["filters/selectedCategory"] || "";
+  const minPrice = store.getters["filters/minPrice"];
+  const maxPrice = store.getters["filters/maxPrice"];
 
   return products.value.filter((product) => {
     const matchesCategory =
-      selectedCategory === 'All' ||
-      selectedCategory === '' ||
-      product.category === selectedCategory
+      selectedCategory === "All" ||
+      selectedCategory === "" ||
+      product.category === selectedCategory;
 
-    const matchesSearch = product.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearch = product.title
+      ?.toLowerCase()
+      .includes(searchQuery.toLowerCase());
 
-    const matchesPrice = product.price >= minPrice && product.price <= maxPrice
+    const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
 
-    return matchesCategory && matchesSearch && matchesPrice
-  })
-})
+    return matchesCategory && matchesSearch && matchesPrice;
+  });
+});
 
-const displayedProducts = computed(() => filtered.value)
+const displayedProducts = computed(() => filtered.value);
 
-
-
-
-const showMostBought = ref(false)
+const showMostBought = ref(false);
 
 const toggleMostBought = () => {
-  showMostBought.value = !showMostBought.value
-}
+  showMostBought.value = !showMostBought.value;
+};
 
 const addToCart = (product) => {
-  store.dispatch('cart/addToCart', product)
-  alert(`Added "${product.title}" to cart!`)
-}
-
-
+  store.dispatch("cart/addToCart", product);
+  alert(`Added "${product.title}" to cart!`);
+};
 
 // console.log(products)
-
 
 //  const products = ref([
 //    {
@@ -176,36 +176,33 @@ const addToCart = (product) => {
 //    },
 //  ])
 
-
 // Data for Most Bought Products
-const mostBoughtProducts = ref([
-  {
-    id: 1,
-    title: 'AirPods Pro',
-    price: 249.99,
-    image: 'https://via.placeholder.com/150x150',
-  },
-  {
-    id: 2,
-    title: 'Nike Air Max',
-    price: 129.99,
-    image: 'https://via.placeholder.com/150x150',
-  },
-  {
-    id: 3,
-    title: 'Fitbit Charge 5',
-    price: 179.99,
-    image: 'https://via.placeholder.com/150x150',
-  },
-  {
-    id: 3,
-    title: 'Charger',
-    price: 70.99,
-    image: 'https://via.placeholder.com/150x150',
-  },
-])
-
-
+// const mostBoughtProducts = ref([
+//   {
+//     id: 1,
+//     title: "AirPods Pro",
+//     price: 249.99,
+//     image: "https://via.placeholder.com/150x150",
+//   },
+//   {
+//     id: 2,
+//     title: "Nike Air Max",
+//     price: 129.99,
+//     image: "https://via.placeholder.com/150x150",
+//   },
+//   {
+//     id: 3,
+//     title: "Fitbit Charge 5",
+//     price: 179.99,
+//     image: "https://via.placeholder.com/150x150",
+//   },
+//   {
+//     id: 3,
+//     title: "Charger",
+//     price: 70.99,
+//     image: "https://via.placeholder.com/150x150",
+//   },
+// ]);
 
 // onMounted(() => {
 //   store.dispatch('product/fetchMostBought')
@@ -219,7 +216,7 @@ const mostBoughtProducts = ref([
   max-width: 1280px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem;
-  position:relative;
+  position: relative;
 }
 
 .section-title {
@@ -464,7 +461,4 @@ const mostBoughtProducts = ref([
 .toggle-most-bought-btn:hover {
   background-color: #1e40af;
 }
-
-
-
 </style>

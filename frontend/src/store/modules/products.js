@@ -1,6 +1,7 @@
 // store/modules/product.js
 
-import axios from 'axios'
+// import axios from 'axios'
+import api from '../../services/api'
 
 const state = () => ({
   products: [],
@@ -32,8 +33,8 @@ const actions = {
     commit('SET_ERROR', null)
     try {
       // console.log('About to call API')
-      const res = await axios.get('https://e-commerce-f5fw.onrender.com/api/products/')
-      // console.log('Fetched data:', res.data)
+      const res = await api.get('/products/')
+      console.log('Fetched data:', res.data)
       commit('SET_PRODUCTS', res.data)
     } catch (err) {
       if (err.response) {

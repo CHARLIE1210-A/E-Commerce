@@ -19,11 +19,15 @@ A simple e-commerce web application built using **Django (DRF)** for the backend
 ### 🏠 Home Page  
 ![Home Page](screenshots/home.png)
 
-### 🛍️ Product List  
-![Product List](screenshots/products.png)
+### 🛍️ Most Bought Product  
+![Product List](screenshots/most_bought.png)
 
 ### 🛒 Cart View  
 ![Cart View](screenshots/cart.png)
+
+### 🔎 Filter View  
+![Cart View](screenshots/filter1.png)
+![Cart View](screenshots/filter2.png)
 
 ---
 

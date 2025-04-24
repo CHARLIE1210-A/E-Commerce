@@ -4,7 +4,7 @@ const state = () => ({
     search: '',
     minPrice: 0,
     maxPrice: 1000000,
-    allCategories: ['All', 'Electronics', 'Footwear', 'Accessories', 'Audio','Accessories'],
+    allCategories: ['All', 'Electronics', 'Footwear', 'Accessories', 'Audio','Clothing'],
     priceRange: [0, 1000000]
   })
   

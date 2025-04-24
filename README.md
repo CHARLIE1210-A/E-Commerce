@@ -20,14 +20,18 @@ A simple e-commerce web application built using **Django (DRF)** for the backend
 ![Home Page](screenshots/home.png)
 
 ### 🛍️ Most Bought Product  
-![Product List](screenshots/most_bought.png)
+![Product List](screenshots/most-bought.png)
 
 ### 🛒 Cart View  
 ![Cart View](screenshots/cart.png)
 
 ### 🔎 Filter View  
-![Cart View](screenshots/filter1.png)
-![Cart View](screenshots/filter2.png)
+![Filter View-1](screenshots/filter1.png)
+
+![Filter View-2](screenshots/filter2.png)
+
+### 🐱‍👓 Login View  
+![Login View](screenshots/login.png)
 
 ---
 
@@ -157,3 +161,6 @@ e-commerce/
 ├── .gitignore
 └── README.md
 ```
+
+### Versel deployment Link
+https://e-commerce-gules-nine.vercel.app/

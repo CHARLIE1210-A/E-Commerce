@@ -51,7 +51,7 @@
         :key="product.id"
         class="product-card"
       >
-        <img :src="product.image" alt="product" class="product-image" />
+        <img :src="product.image_url" alt="product" class="product-image" />
         <div class="product-details">
           <h3 class="product-title">{{ product.title }}</h3>
           <p class="product-category">{{ product.category }}</p>

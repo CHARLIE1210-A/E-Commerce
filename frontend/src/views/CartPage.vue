@@ -4,7 +4,7 @@
   
       <div v-if="cartItems.length" class="cart-items">
         <div v-for="item in cartItems" :key="item.id" class="cart-item">
-          <img :src="item.image" class="cart-image" />
+          <img :src="item.image_url" class="cart-image" />
           <div class="cart-info">
             <h3>{{ item.title }}</h3>
             <p>${{ item.price }} x {{ item.quantity }}</p>
